@@ -1,0 +1,26 @@
+\begin{table*}[t!]
+\centering
+\caption{\textbf{GPU memory} - Peak GPU memory allocated (GB, $\downarrow$), including model weights, for the runs of Table~\ref{tab:speed_fps}.}
+\label{tab:speed_memory}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{l ccc ccc ccc ccc ccc}
+\toprule
+Method
+  & \multicolumn{3}{c}{2 views}
+  & \multicolumn{3}{c}{4 views}
+  & \multicolumn{3}{c}{6 views}
+  & \multicolumn{3}{c}{8 views}
+  & \multicolumn{3}{c}{10 views} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}\cmidrule(lr){11-13}\cmidrule(lr){14-16}
+\hfill \# query points & 10 & 100 & 1k & 10 & 100 & 1k & 10 & 100 & 1k & 10 & 100 & 1k & 10 & 100 & 1k \\
+\midrule
+\rowcolor{rowgray}
+CoTracker3 Baseline & 8.3 & 8.3 & 9.2 & 8.3 & 8.3 & 9.2 & 8.3 & 8.3 & 9.2 & 8.3 & 8.3 & 9.2 & 8.3 & 8.3 & 9.2 \\
+MVTracker (DUSt3R depth)~\cite{rajic2025mvtracker} & 5.0 & 5.0 & 5.0 & 7.7 & 7.7 & 7.7 & 10.4 & 10.4 & 10.5 & 13.2 & 13.2 & 13.2 & 15.9 & 15.9 & 15.9 \\
+\rowcolor{rowgray}
+ARROW~\cite{fradlin2026arrow} & 7.0 & 7.0 & 10.6 & 9.0 & 9.1 & 16.1 & 11.0 & 11.1 & 17.5 & 12.9 & 13.2 & 18.6 & 14.9 & 15.2 & 20.2 \\
+Tracktail (Ours) & 1.6 & 3.2 & 19.2 & 1.7 & 3.3 & 19.5 & 1.7 & 3.4 & 19.8 & 1.9 & 3.5 & 20.0 & 2.0 & 3.7 & 21.3 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}

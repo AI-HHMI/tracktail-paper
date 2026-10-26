@@ -1,0 +1,26 @@
+\begin{table*}[t!]
+\centering
+\caption{\textbf{Inference speed} - Frames per second ($\uparrow$) of the full pipeline on a 96-frame Point Odyssey clip on one NVIDIA A100 (80\,GB), for 2--10 views and 10, 100 and 1000 (1k) query points. Timing starts from decoded frames in memory and includes preprocessing, DUSt3R depth estimation and CoTracker3 triangulation. Point Odyssey has 9 cameras; the 10-view setting repeats one of them.}
+\label{tab:speed_fps}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{l ccc ccc ccc ccc ccc}
+\toprule
+Method
+  & \multicolumn{3}{c}{2 views}
+  & \multicolumn{3}{c}{4 views}
+  & \multicolumn{3}{c}{6 views}
+  & \multicolumn{3}{c}{8 views}
+  & \multicolumn{3}{c}{10 views} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}\cmidrule(lr){11-13}\cmidrule(lr){14-16}
+\hfill \# query points & 10 & 100 & 1k & 10 & 100 & 1k & 10 & 100 & 1k & 10 & 100 & 1k & 10 & 100 & 1k \\
+\midrule
+\rowcolor{rowgray}
+CoTracker3 Baseline & 134 & 90 & 20 & 67 & 45 & 10 & 45 & 30 & 7 & 34 & 23 & 5 & 27 & 18 & 4 \\
+MVTracker (DUSt3R depth)~\cite{rajic2025mvtracker} & 0.4 & 0.4 & 0.4 & 0.2 & 0.2 & 0.2 & 0.1 & 0.1 & 0.1 & 0.1 & 0.1 & 0.1 & 0.1 & 0.1 & 0.1 \\
+\rowcolor{rowgray}
+ARROW~\cite{fradlin2026arrow} & 15 & 14 & 11 & 5 & 5 & 4 & 3 & 3 & 2 & 2 & 2 & 1 & 1 & 1 & 1 \\
+Tracktail (Ours) & 38 & 35 & 18 & 19 & 18 & 10 & 13 & 12 & 7 & 10 & 9 & 5 & 8 & 7 & 4 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}
