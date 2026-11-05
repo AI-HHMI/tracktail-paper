@@ -18,20 +18,26 @@ Two files are written, with one row per run:
     cotracker_triangulation_stats_detail.csv  everything else (rates within each group, the 1 and 0 camera parts, counts)
 
 The runs are those of cotracker_cached.sh (canonical cameras of the MVTracker tables) and cotracker_cached_po.sh (Point
-Odyssey, 4 and 9 cameras). Run it with any python that has numpy, pandas and pyyaml:
+Odyssey, 4 and 9 cameras). Needs the CoTracker result tree (COTRACKER_RESULTS) and the processed datasets (DATA_ROOT),
+see paths.py:
 
-    python cotracker_triangulation_stats.py [--out data/v2/cotracker_triangulation_stats.csv]
+    COTRACKER_RESULTS=... DATA_ROOT=... python cotracker_triangulation_stats.py [--out data/cotracker_triangulation_stats.csv]
 """
 import argparse
 import glob
 import os
 
+import sys
+
 import numpy as np
 import pandas as pd
 import yaml
 
-RESULTS = '/groups/karashchuk/home/ruppk2/results/paper-final-v2/cotracker-outputs'
-DATASET_ROOT = '/groups/karashchuk/karashchuklab/animal-datasets-processed/posetail-pretraining-v6'
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import paths  # noqa: E402
+
+RESULTS = str(paths.COTRACKER_RESULTS)
+DATASET_ROOT = str(paths.DATA_ROOT) if paths.DATA_ROOT else None
 
 # label, folder of the run, dataset folder, pose file the run was made with
 RUNS = [
@@ -78,9 +84,9 @@ def trial_counts(path, pose_file):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--results', default=RESULTS)
-    ap.add_argument('--out', default=os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                                  'data', 'v2', 'cotracker_triangulation_stats.csv'))
+    ap.add_argument('--out', default=str(paths.PAPER_DATA / 'cotracker_triangulation_stats.csv'))
     args = ap.parse_args()
+    paths.require(paths.DATA_ROOT, 'DATA_ROOT')
 
     rows, details = [], []
     for label, folder, ds, pose_file, cams in RUNS:
