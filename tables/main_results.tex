@@ -1,0 +1,30 @@
+\begin{tabular}{lll cccc cccc cccc}
+\toprule
+\multirow{2}{*}{Method} & \multirow{2}{*}{Train} & \multirow{2}{*}{Depth}
+  & \multicolumn{4}{c}{Panoptic Studio~\cite{joo2015panoptic}}
+  & \multicolumn{4}{c}{DexYCB~\cite{chao2021dexycb}}
+  & \multicolumn{4}{c}{Multi-View Kubric~\cite{rajic2025mvtracker}} \\
+\cmidrule(lr){4-7}\cmidrule(lr){8-11}\cmidrule(lr){12-15}
+  & & & AJ$\uparrow$ & $\delta_\text{avg}\uparrow$ & OA$\uparrow$ & MTE$\downarrow$
+      & AJ$\uparrow$ & $\delta_\text{avg}\uparrow$ & OA$\uparrow$ & MTE$\downarrow$
+      & AJ$\uparrow$ & $\delta_\text{avg}\uparrow$ & OA$\uparrow$ & MTE$\downarrow$ \\
+\midrule
+\rowcolor{rowgray}
+Dynamic 3DGS~\cite{luiten2023dynamic} & $\times$ & \xmark & 66.5 & 92.4 & 74.1 & 3.9 & 45.7 & 57.1 & 81.3 & 11.3 & 30.4 & 48.6 & 68.3 & 11.2 \\
+Shape of Motion~\cite{som2024} & $\times$ & \cmark & 72.6 & 89.2 & 82.1 & 4.8 & 36.2 & 53.6 & 63.3 & 8.0 & 57.8 & 63.4 & 86.2 & 5.3 \\
+\midrule
+\rowcolor{rowgray}
+CoTracker3~\cite{karaev24cotracker3} & Kub+15k & \cmark & 74.5 & 84.5 & 86.4 & 8.6 & 29.4 & 40.3 & 78.6 & 22.0 & 55.1 & 60.6 & 77.7 & 11.9 \\
+SpaTrackerV2~\cite{xiao2025spatialtrackerv2} & See~\cite{xiao2025spatialtrackerv2} & \cmark & 75.3 & 85.1 & 91.2 & 6.9 & 35.5 & 45.1 & \underline{91.3} & 9.8 & 58.6 & 69.3 & 86.3 & 3.9 \\
+\rowcolor{rowgray}
+TAPIP3D~\cite{tapip3d} & Kub & \cmark & \underline{84.3} & \underline{93.8} & 91.4 & \underline{3.1} & 38.8 & 50.0 & 90.1 & 8.2 & 72.4 & 86.5 & 85.4 & 1.3 \\
+MVTracker (DUSt3R depth)~\cite{rajic2025mvtracker} & MV-Kub & \cmark & 58.8 & 70.0 & 91.2 & 10.2 & 73.4 & 82.3 & \underline{91.3} & 2.0 & 51.5 & 67.2 & 79.0 & 3.7 \\
+\rowcolor{rowgray}
+MVTracker (GT Depth) ~\cite{rajic2025mvtracker} & MV-Kub & \cmark & 84.2 & 93.6 & 91.4 & 3.4 & \underline{83.0}$^\dagger$ & \underline{91.4}$^\dagger$ & \textbf{91.5}$^\dagger$ & \underline{0.8}$^\dagger$ & \textbf{80.8} & \textbf{89.6} & \textbf{93.5} & \textbf{0.7} \\
+\midrule
+CoTracker3 Baseline & Kub+15k & \xmark & 62.5 & 70.3 & 81.5 & 7.6 & 66.4 & 72.8 & 84.4 & 3.7 & 42.9 & 48.8 & 74.5 & 7.8 \\
+\rowcolor{rowgray}
+ARROW~\cite{fradlin2026arrow} & See~\cite{fradlin2026arrow} & \xmark & 69.1 & 77.6 & \underline{92.0} & 8.1 & 49.6 & 55.6 & 90.9 & 20.1 & 30.0 & 35.2 & 88.7 & 9.2 \\
+Tracktail (Ours) & MV-Kub+MV-PO & \xmark & \textbf{86.5} & \textbf{95.5} & \textbf{92.7} & \textbf{2.7} & \textbf{84.9} & \textbf{93.8} & \textbf{91.5} & \textbf{0.6} & \underline{77.4} & \underline{87.0} & \underline{92.3} & \underline{1.1} \\
+\bottomrule
+\end{tabular}

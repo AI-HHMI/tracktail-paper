@@ -1,0 +1,15 @@
+\begin{tabular}{l cccc}
+\toprule
+\multirow{2}{*}{Encoder Size}
+  & \multicolumn{4}{c}{Multi-View Kubric~\cite{rajic2025mvtracker}} \\
+\cmidrule(lr){2-5}
+  & AJ$\uparrow$ & $\delta_\text{avg}\uparrow$ & OA$\uparrow$ & MTE$\downarrow$ \\
+\midrule
+\rowcolor{rowgray}
+Base (86M) & 56.5 & 66.6 & 88.7 & 3.4 \\
+Large (300M) & 60.2 & 70.4 & 89.4 & 2.8 \\
+\rowcolor{rowgray}
+Giant (1B) & 61.7 & 71.8 & \textbf{89.5} & \textbf{2.6} \\
+Gigantic (2B) & \textbf{62.1} & \textbf{72.4} & \textbf{89.5} & \textbf{2.6} \\
+\bottomrule
+\end{tabular}

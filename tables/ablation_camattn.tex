@@ -1,0 +1,15 @@
+\begin{tabular}{cc cccc}
+\toprule
+\multirow{2}{*}{\shortstack{Temporal\\Self-Attn.}} & \multirow{2}{*}{\shortstack{Camera\\Self-Attn.}}
+  & \multicolumn{4}{c}{Multi-View Kubric~\cite{rajic2025mvtracker}} \\
+\cmidrule(lr){3-6}
+  & & AJ$\uparrow$ & $\delta_\text{avg}\uparrow$ & OA$\uparrow$ & MTE$\downarrow$ \\
+\midrule
+\cmark & \cmark & \textbf{60.2} & \textbf{70.4} & \textbf{89.4} & 2.8 \\
+\rowcolor{rowgray}
+\xmark & \cmark & 58.3 & 68.8 & 89.1 & \textbf{2.7} \\
+\cmark & \xmark & 49.4 & 59.4 & 86.7 & 5.1 \\
+\rowcolor{rowgray}
+\xmark & \xmark & 46.3 & 56.4 & 86.8 & 5.2 \\
+\bottomrule
+\end{tabular}

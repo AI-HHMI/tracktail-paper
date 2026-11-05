@@ -1,0 +1,38 @@
+% Tracktail: main_finetune_vzkjqrys_tapvid3d_official_minival_vis0.1_occunk/tapvid3d_official_median.json; ADT on 49 of the 50 mini-val videos
+\begin{tabular}{l c ccc ccc ccc}
+\toprule
+\multirow{2}{*}{Method}
+  & \multirow{2}{*}{GT intr.}
+  & \multicolumn{3}{c}{DriveTrack}
+  & \multicolumn{3}{c}{Aria Digital Twin}
+  & \multicolumn{3}{c}{Panoptic Studio} \\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}
+  &
+  & AJ$\uparrow$ & APD$_\text{3D}\uparrow$ & OA$\uparrow$
+  & AJ$\uparrow$ & APD$_\text{3D}\uparrow$ & OA$\uparrow$
+  & AJ$\uparrow$ & APD$_\text{3D}\uparrow$ & OA$\uparrow$ \\
+\midrule
+D4RT~\cite{zhang2026d4rt}
+  & $\times$
+  & 0.257 & 0.345 & 0.875
+  & 0.240 & 0.319 & 0.926
+  & 0.138 & 0.186 & 0.897 \\
+ARROW~\cite{fradlin2026arrow}
+  & $\times$
+  & 0.241 & 0.350 & 0.816
+  & 0.360 & 0.473 & 0.902
+  & 0.141 & 0.201 & 0.870 \\
+\midrule
+\rowcolor{rowgray}
+D4RT~\cite{zhang2026d4rt}
+  & $\checkmark$
+  & 0.304 & 0.410 & 0.875
+  & 0.307 & 0.408 & 0.926
+  & 0.372 & 0.498 & 0.897 \\
+Tracktail (Ours)
+  & $\checkmark$
+  & 0.058 & 0.100 & 0.797
+  & 0.068 & 0.125 & 0.740
+  & 0.228 & 0.353 & 0.797 \\
+\bottomrule
+\end{tabular}
