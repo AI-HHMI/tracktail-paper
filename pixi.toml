@@ -1,0 +1,30 @@
+[workspace]
+name = "tracktail-paper"
+description = "Figures and tables of the Tracktail paper"
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-arm64", "osx-64", "win-64"]
+
+[dependencies]
+python = "3.12.*"
+numpy = ">=1.26"
+pandas = ">=2.2"
+matplotlib = ">=3.8"
+seaborn = ">=0.13"
+pyyaml = ">=6"
+scipy = ">=1.11"
+jupyterlab = ">=4"
+nbconvert = ">=7"
+ipykernel = ">=6"
+
+[pypi-dependencies]
+aniposelib = ">=0.5"   # figure_rat7m.ipynb (camera projection); also brings opencv-contrib-python (cv2)
+
+[tasks]
+# quick path: data/ -> tables/ and figures/
+tables = "python tables.py"
+figures = "python build_figures.py"
+speed = "jupyter nbconvert --to notebook --execute --inplace figure_speed.ipynb"
+paper = { depends-on = ["tables", "figures", "speed"] }
+# full path: result trees -> data/ (set the env vars in paths.py first)
+collect = "python build_paper_data.py collect"
+paper-data = "python build_paper_data.py ncam survival"
