@@ -179,7 +179,7 @@ def po_results():
          both(mvt / 'paper-po-4cams-duster_0.5', mvt / 'paper-po-9cams-duster_0.5', 'mvtracker')),
         (r'MVTracker~\cite{rajic2025mvtracker} (GT depth)',
          both(mvt / 'paper-po-4cams-gt_0.5', mvt / 'paper-po-9cams-gt_0.5', 'mvtracker')),
-        # TODO(arrow-w24): the 9-view block comes from paths.ARROW_PO9_OUTPUTS (being rerun with 24-frame windows)
+        # 9 views: paths.ARROW_PO9_OUTPUTS (the rerun with 24-frame windows, arrow-outputs-w24)
         (r'ARROW~\cite{fradlin2026arrow}', both(arrow / 'paper-po-4cams', paths.ARROW_PO9_OUTPUTS, 'arrow')),
         ('Tracktail (Ours)', both('main_finetune_vzkjqrys_po_4cams', 'main_finetune_vzkjqrys_po_9cams', None)),
     ]

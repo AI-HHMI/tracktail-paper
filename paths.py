@@ -10,7 +10,8 @@ figures build from the committed result summaries in data/ with no other setup.
     TRACKTAIL_OUTPUTS, COTRACKER_OUTPUTS, MVTRACKER_OUTPUTS, MVTRACKER_SENSORDEPTH_OUTPUTS, ARROW_OUTPUTS
                        one result tree each; default $TRACKTAIL_RESULTS/{tracktail-outputs, cotracker-outputs,
                        mvtracker-outputs, mvtracker-outputs-dexycb-sensordepth, arrow-outputs}
-    ARROW_PO9_OUTPUTS  the ARROW MV Point Odyssey 9-camera run (see TODO below)
+    ARROW_PO9_OUTPUTS  the ARROW MV Point Odyssey 9-camera run, 24-frame windows
+                       default: $TRACKTAIL_RESULTS/arrow-outputs-w24/paper-po-9cams
     TRACKTAIL_DATA     processed datasets, <TRACKTAIL_DATA>/<dataset>/<split>/<session>/trial/  no default
                        (needed to recompute survival curves / triangulation stats, and for the PO figures)
     TRACKTAIL_CODE     a checkout of the Tracktail code                    default: ../tracktail, else ../posetail-next
@@ -41,10 +42,9 @@ MVTRACKER_OUTPUTS = _env_path('MVTRACKER_OUTPUTS', TRACKTAIL_RESULTS / 'mvtracke
 MVTRACKER_SENSORDEPTH_OUTPUTS = _env_path('MVTRACKER_SENSORDEPTH_OUTPUTS',
                                           TRACKTAIL_RESULTS / 'mvtracker-outputs-dexycb-sensordepth')
 ARROW_OUTPUTS = _env_path('ARROW_OUTPUTS', TRACKTAIL_RESULTS / 'arrow-outputs')
-# TODO(arrow-w24): the ARROW PO 9-camera run is being redone with 24-frame windows into
-# arrow-outputs-w24/paper-po-9cams. When it is final, change this default to
-# TRACKTAIL_RESULTS / 'arrow-outputs-w24' / 'paper-po-9cams' and rerun `build_paper_data.py collect survival`.
-ARROW_PO9_OUTPUTS = _env_path('ARROW_PO9_OUTPUTS', ARROW_OUTPUTS / 'paper-po-9cams')
+# ARROW on MV Point Odyssey with 9 cameras: rerun with 24-frame windows (WINDOW=24) in its own tree. The older
+# window-12 run (arrow-outputs/paper-po-9cams on disk) is not used in the paper.
+ARROW_PO9_OUTPUTS = _env_path('ARROW_PO9_OUTPUTS', TRACKTAIL_RESULTS / 'arrow-outputs-w24' / 'paper-po-9cams')
 
 TRACKTAIL_DATA = _env_path('TRACKTAIL_DATA', None)
 _code_default = REPO.parent / 'tracktail'

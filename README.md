@@ -75,7 +75,7 @@ All inputs and outputs are set by environment variables, read in `paths.py` (see
 | `TRACKTAIL_OUTPUTS` | `$TRACKTAIL_RESULTS/tracktail-outputs` | Tracktail runs |
 | `COTRACKER_OUTPUTS`, `MVTRACKER_OUTPUTS`, `ARROW_OUTPUTS` | `$TRACKTAIL_RESULTS/{cotracker,mvtracker,arrow}-outputs` | baselines |
 | `MVTRACKER_SENSORDEPTH_OUTPUTS` | `$TRACKTAIL_RESULTS/mvtracker-outputs-dexycb-sensordepth` | MVTracker with DexYCB Kinect depth |
-| `ARROW_PO9_OUTPUTS` | `$ARROW_OUTPUTS/paper-po-9cams` | ARROW on MV-PO with 9 views (see TODO in `paths.py`) |
+| `ARROW_PO9_OUTPUTS` | `$TRACKTAIL_RESULTS/arrow-outputs-w24/paper-po-9cams` | ARROW on MV-PO with 9 views (24-frame windows) |
 | `TRACKTAIL_DATA` | – | processed datasets `<TRACKTAIL_DATA>/<dataset>/<split>/<session>/trial/` |
 | `RENDERS_ROOT`, `RAT7M_TRIAL`, `RAT7M_RENDERS` | – | qualitative and cover figures |
 | `TRACKTAIL_CODE` | `../tracktail` | checkout of the Tracktail code |
@@ -111,9 +111,3 @@ Execution order: evaluations with the Tracktail code -> `build_paper_data.py` (+
   examples for `figure_po_examples.ipynb`; not used for any figure.
 - `archive/`: superseded notebooks (`format_tables*.ipynb`, `format_arrow.ipynb`, `figure_ncams.ipynb`,
   `figure_survival.ipynb`, `figure_qualitative_comparison.ipynb`, `format_fps_table.ipynb`), see `archive/README.md`.
-
-## Open items
-
-- TODO(arrow-w24): the ARROW 9-view columns of `tab:po_results` (and the ARROW 9-cam survival rows) are being rerun
-  with 24-frame windows. When done, set the `ARROW_PO9_OUTPUTS` default in `paths.py` to
-  `arrow-outputs-w24/paper-po-9cams`, run `build_paper_data.py collect survival` and `tables.py`.
