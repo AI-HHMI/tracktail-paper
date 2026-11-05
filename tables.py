@@ -38,13 +38,13 @@ def to_units(values, dataset):
 
 def tracktail(run, dataset):
     """Tracktail metrics (mean over trials) from summary.json of scripts/eval_testset_metrics.py (Tracktail code)."""
-    s = json.load(open(paths.TRACKTAIL_OUTPUTS / run / 'summary.json'))[dataset]
+    s = json.load(open(paths.result(paths.TRACKTAIL_OUTPUTS / run / 'summary.json')))[dataset]
     return to_units([s[f'{m}_mean'] for m in METRICS], dataset)
 
 
 def baseline(run_dir, prefix, dataset):
     """Baseline metrics (mean over trials) from combined_summary_metrics.csv of mvtracker_baseline/mvtracker_metrics.py (Tracktail code)."""
-    df = pd.read_csv(run_dir / 'combined_summary_metrics.csv').set_index('dataset')
+    df = pd.read_csv(paths.result(run_dir / 'combined_summary_metrics.csv')).set_index('dataset')
     return to_units([df.loc[dataset, f'{prefix}_{m}'] for m in METRICS], dataset)
 
 
@@ -179,7 +179,7 @@ def po_results():
          both(mvt / 'paper-po-4cams-duster_0.5', mvt / 'paper-po-9cams-duster_0.5', 'mvtracker')),
         (r'MVTracker~\cite{rajic2025mvtracker} (GT depth)',
          both(mvt / 'paper-po-4cams-gt_0.5', mvt / 'paper-po-9cams-gt_0.5', 'mvtracker')),
-        # 9 views: paths.ARROW_PO9_OUTPUTS (the rerun with 24-frame windows, arrow-outputs-w24)
+        # 9 views: paths.ARROW_PO9_OUTPUTS (24-frame windows)
         (r'ARROW~\cite{fradlin2026arrow}', both(arrow / 'paper-po-4cams', paths.ARROW_PO9_OUTPUTS, 'arrow')),
         ('Tracktail (Ours)', both('main_finetune_vzkjqrys_po_4cams', 'main_finetune_vzkjqrys_po_9cams', None)),
     ]
@@ -329,7 +329,7 @@ TAPVID_RUN = 'main_finetune_vzkjqrys_tapvid3d_official_minival_vis0.1_occunk'
 
 
 def tapvid3d_results():
-    res = json.load(open(paths.TRACKTAIL_OUTPUTS / TAPVID_RUN / 'tapvid3d_official_median.json'))
+    res = json.load(open(paths.result(paths.TRACKTAIL_OUTPUTS / TAPVID_RUN / 'tapvid3d_official_median.json')))
     ours = [res[d]['summary'][k] for d in TAPVID_DATASETS
             for k in ('average_jaccard', 'average_pts_within_thresh', 'occlusion_accuracy')]
     rows = LITERATURE_TAPVID + [('Tracktail (Ours)', r'$\checkmark$', ours, False)]

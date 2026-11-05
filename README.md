@@ -37,12 +37,12 @@ pixi run speed                                           # figures/speed_memory*
 | Paper item | Label | Producer | Inputs | Output |
 |---|---|---|---|---|
 | Cover figure, Rat7M panels | `fig:rat7m` | `figure_rat7m.ipynb` (composited by hand in `cover_figure_draft_liliedit2.svg`, overleaf) | Rat7M trial (`RAT7M_TRIAL`), `data/rat7m/{cloud,tracktail_output}.npz` | `figures/rat7m/*.pdf` |
-| MV Point Odyssey examples | `fig:po_examples` | `figure_po_examples.ipynb` | MV-PO train split (`TRACKTAIL_DATA`) | `figures/po_examples.pdf` |
+| MV Point Odyssey examples | `fig:po_examples` | `figure_po_examples.ipynb` | MV-PO train split (`TRACKTAIL_DATA`) | `figures/po_examples.pdf` (included in the paper as `po_examples_2.pdf`) |
 | Architecture (image crops) | `fig:architecture` | `figure_po_architecture.ipynb` (crops only; the diagram is a hand-made SVG in overleaf) | MV-PO train split (`TRACKTAIL_DATA`) | `figures/architecture/` |
 | Main results | `tab:main_results` | `tables.py` | `data/results` | `tables/main_results.tex` |
 | MV Point Odyssey results | `tab:po_results` | `tables.py` | `data/results` | `tables/po_results.tex` |
 | Temporal / camera self-attention ablation | `tab:ablation_camattn` | `tables.py` | `data/results` | `tables/ablation_camattn.tex` |
-| Qualitative comparison | `fig:qualitative_comparison` | `figure_qualitative.ipynb` | rendered videos (`RENDERS_ROOT`) | `figures/qualitative_comparison.pdf` |
+| Qualitative comparison | `fig:qualitative_comparison` | `figure_qualitative.ipynb` | rendered videos (`RENDERS_ROOT`) | `figures/qualitative_comparison.pdf` (the paper's copy is image-compressed, so not byte-identical) |
 | AJ vs number of views (DexYCB) | `fig:ncams` | `build_figures.py n_cams` | `data/dexycb_ncam_results.csv` | `figures/n_cams_figure.pdf` |
 | Loss weights | `tab:loss_weights` | hand-written; values from `configs/paper/*.toml` of the Tracktail code (λ_3D = `coords_loss_weight` + `coords_loss_direct_weight`, λ_rep = config value / 16) | – | – |
 | Survival, all methods (suppl.) | `fig:po_survival_comparison` | `build_figures.py survival_comparison` | `data/survival_curves.csv` | `figures/po_survival_comparison_1.2.pdf` |
@@ -75,9 +75,11 @@ All inputs and outputs are set by environment variables, read in `paths.py` (see
 | `TRACKTAIL_OUTPUTS` | `$TRACKTAIL_RESULTS/tracktail-outputs` | Tracktail runs |
 | `COTRACKER_OUTPUTS`, `MVTRACKER_OUTPUTS`, `ARROW_OUTPUTS` | `$TRACKTAIL_RESULTS/{cotracker,mvtracker,arrow}-outputs` | baselines |
 | `MVTRACKER_SENSORDEPTH_OUTPUTS` | `$TRACKTAIL_RESULTS/mvtracker-outputs-dexycb-sensordepth` | MVTracker with DexYCB Kinect depth |
-| `ARROW_PO9_OUTPUTS` | `$TRACKTAIL_RESULTS/arrow-outputs-w24/paper-po-9cams` | ARROW on MV-PO with 9 views (24-frame windows) |
+| `ARROW_PO9_OUTPUTS` | `$ARROW_OUTPUTS/paper-po-9cams` | ARROW on MV-PO with 9 views (24-frame windows) |
 | `TRACKTAIL_DATA` | – | processed datasets `<TRACKTAIL_DATA>/<dataset>/<split>/<session>/trial/` |
-| `RENDERS_ROOT`, `RAT7M_TRIAL`, `RAT7M_RENDERS` | – | qualitative and cover figures |
+| `RENDERS_ROOT`, `RAT7M_TRIAL` | – | qualitative and cover figures |
+| `RAT7M_RENDERS` | – | optional: rendered Tracktail video of the Rat7M trial, only for the `rat7m_with_tracks*` panels of `figure_rat7m.ipynb` (skipped when unset); the cover panel needs only the committed `data/rat7m/` |
+| `SPEED_RESULTS` | `data/speed` | speed benchmark jsonl files read by `figure_speed.ipynb` |
 | `TRACKTAIL_CODE` | `../tracktail` | checkout of the Tracktail code |
 | `FIG_OUT`, `TABLE_OUT` | `figures/`, `tables/` | outputs |
 
@@ -99,6 +101,10 @@ All inputs and outputs are set by environment variables, read in `paths.py` (see
    cp ../tracktail/benchmark_speed/results/<run>/*.jsonl data/speed/   # speed benchmark
    ```
 3. Run the quick path.
+
+If a run is missing from your trees (typically the pretrain and ablation runs, whose models are not released),
+`tables.py` and `build_paper_data.py` use the committed copy in `data/results` for that run and print a warning. So the
+ablation table rows come from the committed results unless you retrain those models.
 
 Execution order: evaluations with the Tracktail code -> `build_paper_data.py` (+ `cotracker_triangulation_stats.py`) ->
 `tables.py`, `build_figures.py`, `figure_speed.ipynb` -> the notebooks that need raw data

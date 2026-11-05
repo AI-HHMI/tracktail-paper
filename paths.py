@@ -11,14 +11,18 @@ figures build from the committed result summaries in data/ with no other setup.
                        one result tree each; default $TRACKTAIL_RESULTS/{tracktail-outputs, cotracker-outputs,
                        mvtracker-outputs, mvtracker-outputs-dexycb-sensordepth, arrow-outputs}
     ARROW_PO9_OUTPUTS  the ARROW MV Point Odyssey 9-camera run, 24-frame windows
-                       default: $TRACKTAIL_RESULTS/arrow-outputs-w24/paper-po-9cams
+                       default: $ARROW_OUTPUTS/paper-po-9cams (what arrow_baseline/arrow_cached_po.sh writes)
     TRACKTAIL_DATA     processed datasets, <TRACKTAIL_DATA>/<dataset>/<split>/<session>/trial/  no default
                        (needed to recompute survival curves / triangulation stats, and for the PO figures)
     TRACKTAIL_CODE     a checkout of the Tracktail code                    default: ../tracktail, else ../posetail-next
     RENDERS_ROOT       rendered videos of the qualitative figure (scripts/render_qualitative_gtvis.sh)   no default
     RAT7M_TRIAL        the processed Rat7M trial of the cover figure (.../rat7m/test/s5-d1/101500)    no default
     RAT7M_RENDERS      optional: rendered Tracktail video of that trial                                no default
+    SPEED_RESULTS      speed benchmark jsonl files (benchmark_speed/run_all.sh output)      default: data/speed
     FIG_OUT, TABLE_OUT output folders                                                 default: figures/, tables/
+
+When a result file is missing from a configured tree (e.g. you reran the main results but did not retrain the
+ablation models), result() falls back to the committed copy in data/results and prints a warning.
 """
 import os
 from pathlib import Path
@@ -42,9 +46,9 @@ MVTRACKER_OUTPUTS = _env_path('MVTRACKER_OUTPUTS', TRACKTAIL_RESULTS / 'mvtracke
 MVTRACKER_SENSORDEPTH_OUTPUTS = _env_path('MVTRACKER_SENSORDEPTH_OUTPUTS',
                                           TRACKTAIL_RESULTS / 'mvtracker-outputs-dexycb-sensordepth')
 ARROW_OUTPUTS = _env_path('ARROW_OUTPUTS', TRACKTAIL_RESULTS / 'arrow-outputs')
-# ARROW on MV Point Odyssey with 9 cameras: rerun with 24-frame windows (WINDOW=24) in its own tree. The older
-# window-12 run (arrow-outputs/paper-po-9cams on disk) is not used in the paper.
-ARROW_PO9_OUTPUTS = _env_path('ARROW_PO9_OUTPUTS', TRACKTAIL_RESULTS / 'arrow-outputs-w24' / 'paper-po-9cams')
+# ARROW on MV Point Odyssey with 9 cameras, 24-frame windows (WINDOW=24, the default of arrow_cached_po.sh). The
+# committed copy is the Janelia rerun in arrow-outputs-w24/paper-po-9cams (see data/PROVENANCE.md).
+ARROW_PO9_OUTPUTS = _env_path('ARROW_PO9_OUTPUTS', ARROW_OUTPUTS / 'paper-po-9cams')
 
 TRACKTAIL_DATA = _env_path('TRACKTAIL_DATA', None)
 _code_default = REPO.parent / 'tracktail'
@@ -54,6 +58,8 @@ TRACKTAIL_CODE = _env_path('TRACKTAIL_CODE', _code_default)
 RENDERS_ROOT = _env_path('RENDERS_ROOT', None)
 RAT7M_TRIAL = _env_path('RAT7M_TRIAL', None)
 RAT7M_RENDERS = _env_path('RAT7M_RENDERS', None)
+
+SPEED_RESULTS = _env_path('SPEED_RESULTS', REPO / 'data' / 'speed')
 
 FIG_OUT = _env_path('FIG_OUT', REPO / 'figures')
 TABLE_OUT = _env_path('TABLE_OUT', REPO / 'tables')
@@ -66,3 +72,33 @@ def require(path, name):
     if not Path(path).exists():
         raise SystemExit(f'{name}={path} does not exist')
     return Path(path)
+
+
+COMMITTED_RESULTS = REPO / 'data' / 'results'
+# configured tree -> its committed copy (most specific first)
+_COMMITTED = [
+    (ARROW_PO9_OUTPUTS, COMMITTED_RESULTS / 'arrow-outputs' / 'paper-po-9cams'),
+    (TRACKTAIL_OUTPUTS, COMMITTED_RESULTS / 'tracktail-outputs'),
+    (COTRACKER_OUTPUTS, COMMITTED_RESULTS / 'cotracker-outputs'),
+    (MVTRACKER_SENSORDEPTH_OUTPUTS, COMMITTED_RESULTS / 'mvtracker-outputs-dexycb-sensordepth'),
+    (MVTRACKER_OUTPUTS, COMMITTED_RESULTS / 'mvtracker-outputs'),
+    (ARROW_OUTPUTS, COMMITTED_RESULTS / 'arrow-outputs'),
+]
+
+
+def result(path):
+    """`path` if it exists, else the same file in the committed data/results copy (with a warning)."""
+    path = Path(path)
+    if path.exists():
+        return path
+    for tree, committed in _COMMITTED:
+        try:
+            rel = path.relative_to(tree)
+        except ValueError:
+            continue
+        fallback = committed / rel
+        if fallback != path and fallback.exists():
+            print(f'[warn] {path} not found; using the committed copy {fallback.relative_to(REPO)}')
+            return fallback
+        break
+    return path

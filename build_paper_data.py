@@ -84,7 +84,7 @@ def collect():
     jobs = [(getattr(paths, var), run, dest_root / TREE_NAMES[var] / run)
             for var, runs in PAPER_RUNS.items() for run in runs]
     po9 = Path(paths.ARROW_PO9_OUTPUTS)
-    jobs.append((po9.parent, po9.name, dest_root / po9.parent.name / po9.name))
+    jobs.append((po9.parent, po9.name, dest_root / 'arrow-outputs' / 'paper-po-9cams'))
     for tree, run, dst in jobs:
         src = Path(tree) / run
         if src.resolve() == dst.resolve():
@@ -109,7 +109,7 @@ def ncam():
     }
     cols = []
     for name, (folder, col) in sources.items():
-        df = pd.read_csv(folder / 'ncam_ablation_summary.csv')
+        df = pd.read_csv(paths.result(folder / 'ncam_ablation_summary.csv'))
         cols.append(pd.Series(np.round(df[col].to_numpy() * 100, 1), index=df['n_views'], name=name))
     out = pd.concat(cols, axis=1, sort=True)
     out.index.name = 'n_views'
