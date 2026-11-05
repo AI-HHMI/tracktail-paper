@@ -3,7 +3,7 @@
 Browsing helper (not used for any paper figure): sample 10 random frames per trial from both Point Odyssey training
 datasets and copy them to a browsable output directory, e.g. to pick examples for figure_po_examples.ipynb.
 
-    DATA_ROOT=/path/to/processed/datasets python sample_training_images.py [OUTPUT_DIR]   (default: training_samples/)
+    TRACKTAIL_DATA=/path/to/processed/datasets python sample_training_images.py [OUTPUT_DIR]   (default: training_samples/)
 
 Output layout:
   {output_prefix}/{dataset}/{trial}/{frame_filename}
@@ -16,10 +16,10 @@ import sys
 
 import paths
 
-DATA_ROOT = paths.require(paths.DATA_ROOT, 'DATA_ROOT')
+TRACKTAIL_DATA = paths.require(paths.TRACKTAIL_DATA, 'TRACKTAIL_DATA')
 DATASETS = {
-    'point-odyssey-human': os.path.join(DATA_ROOT, 'point-odyssey-human', 'train'),
-    'po-animal-sub256-motion': os.path.join(DATA_ROOT, 'po-animal-sub256-motion', 'train'),
+    'point-odyssey-human': os.path.join(TRACKTAIL_DATA, 'point-odyssey-human', 'train'),
+    'po-animal-sub256-motion': os.path.join(TRACKTAIL_DATA, 'po-animal-sub256-motion', 'train'),
 }
 
 OUTPUT_PREFIX = sys.argv[1] if len(sys.argv) > 1 else os.path.join(paths.REPO, 'training_samples')

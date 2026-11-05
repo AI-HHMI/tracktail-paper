@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Write the LaTeX tabulars of the paper's result tables into tables/, from the result summaries.
 
-    python tables.py                          # reads data/results (or RESULTS_ROOT / the variables in paths.py)
+    python tables.py                          # reads data/results (or TRACKTAIL_RESULTS / the variables in paths.py)
     python tables.py --check ../tracktail-overleaf   # also compare every number and bold/underline mark with the
                                                      # tables in sec/4_experiments.tex and sec/7_suppl.tex
 
@@ -37,13 +37,13 @@ def to_units(values, dataset):
 
 
 def tracktail(run, dataset):
-    """Tracktail metrics (mean over trials) from summary.json of posetail-next scripts/eval_testset_metrics.py."""
-    s = json.load(open(paths.TRACKTAIL_RESULTS / run / 'summary.json'))[dataset]
+    """Tracktail metrics (mean over trials) from summary.json of scripts/eval_testset_metrics.py (Tracktail code)."""
+    s = json.load(open(paths.TRACKTAIL_OUTPUTS / run / 'summary.json'))[dataset]
     return to_units([s[f'{m}_mean'] for m in METRICS], dataset)
 
 
 def baseline(run_dir, prefix, dataset):
-    """Baseline metrics (mean over trials) from combined_summary_metrics.csv of posetail-next mvtracker_metrics.py."""
+    """Baseline metrics (mean over trials) from combined_summary_metrics.csv of mvtracker_baseline/mvtracker_metrics.py (Tracktail code)."""
     df = pd.read_csv(run_dir / 'combined_summary_metrics.csv').set_index('dataset')
     return to_units([df.loc[dataset, f'{prefix}_{m}'] for m in METRICS], dataset)
 
@@ -120,14 +120,14 @@ LITERATURE_MAIN = [
 
 
 def main_results():
-    cot, mvt, arrow = paths.COTRACKER_RESULTS, paths.MVTRACKER_RESULTS, paths.ARROW_RESULTS
+    cot, mvt, arrow = paths.COTRACKER_OUTPUTS, paths.MVTRACKER_OUTPUTS, paths.ARROW_OUTPUTS
     ours = [
         (r'MVTracker (DUSt3R depth)~\cite{rajic2025mvtracker}', 'MV-Kub', r'\cmark',
          cells(sum((baseline(mvt / 'paper-canonical-cached-duster', 'mvtracker', d) for d in MAIN_DATASETS), []))),
         # GT depth on Panoptic and Kubric; DexYCB has no GT depth: Kinect sensor depth (dagger)
         (r'MVTracker (GT Depth) ~\cite{rajic2025mvtracker}', 'MV-Kub', r'\cmark',
          cells(baseline(mvt / 'paper-canonical-cached-gt', 'mvtracker', 'cmupanoptic_3dgs'))
-         + cells(baseline(paths.MVTRACKER_SENSORDEPTH_RESULTS / 'paper-canonical-cached-sensor-linear',
+         + cells(baseline(paths.MVTRACKER_SENSORDEPTH_OUTPUTS / 'paper-canonical-cached-sensor-linear',
                           'mvtracker', 'dex_ycb'), suffix=r'$^\dagger$')
          + cells(baseline(mvt / 'paper-canonical-cached-gt', 'mvtracker', 'kubric-multiview'))),
         ('CoTracker3 Baseline', 'Kub+15k', r'\xmark',
@@ -166,7 +166,7 @@ def main_results():
 # Tab. po_results
 
 def po_results():
-    cot, mvt, arrow = paths.COTRACKER_RESULTS, paths.MVTRACKER_RESULTS, paths.ARROW_RESULTS
+    cot, mvt, arrow = paths.COTRACKER_OUTPUTS, paths.MVTRACKER_OUTPUTS, paths.ARROW_OUTPUTS
 
     def both(run4, run9, prefix):
         return cells([v for run in (run4, run9) for d in PO_DATASETS for v in
@@ -174,13 +174,13 @@ def po_results():
 
     rows = [
         (r'CoTracker3 Baseline~\cite{karaev24cotracker3}', both(cot / 'paper-po-4cams', cot / 'paper-po-9cams', 'cotracker')),
-        # MVTracker on Point Odyssey with visibility threshold 0.5 (posetail-next mvtracker_cached_po.sh VIS_THRESHOLD=0.5)
+        # MVTracker on Point Odyssey with visibility threshold 0.5 (mvtracker_cached_po.sh VIS_THRESHOLD=0.5)
         (r'MVTracker~\cite{rajic2025mvtracker} (DUSt3R depth)',
          both(mvt / 'paper-po-4cams-duster_0.5', mvt / 'paper-po-9cams-duster_0.5', 'mvtracker')),
         (r'MVTracker~\cite{rajic2025mvtracker} (GT depth)',
          both(mvt / 'paper-po-4cams-gt_0.5', mvt / 'paper-po-9cams-gt_0.5', 'mvtracker')),
-        # TODO(arrow-w24): the 9-view block comes from paths.ARROW_PO9_RESULTS (being rerun with 24-frame windows)
-        (r'ARROW~\cite{fradlin2026arrow}', both(arrow / 'paper-po-4cams', paths.ARROW_PO9_RESULTS, 'arrow')),
+        # TODO(arrow-w24): the 9-view block comes from paths.ARROW_PO9_OUTPUTS (being rerun with 24-frame windows)
+        (r'ARROW~\cite{fradlin2026arrow}', both(arrow / 'paper-po-4cams', paths.ARROW_PO9_OUTPUTS, 'arrow')),
         ('Tracktail (Ours)', both('main_finetune_vzkjqrys_po_4cams', 'main_finetune_vzkjqrys_po_9cams', None)),
     ]
     mark_best([r[1] for r in rows], HIGHER * 4)
@@ -329,7 +329,7 @@ TAPVID_RUN = 'main_finetune_vzkjqrys_tapvid3d_official_minival_vis0.1_occunk'
 
 
 def tapvid3d_results():
-    res = json.load(open(paths.TRACKTAIL_RESULTS / TAPVID_RUN / 'tapvid3d_official_median.json'))
+    res = json.load(open(paths.TRACKTAIL_OUTPUTS / TAPVID_RUN / 'tapvid3d_official_median.json'))
     ours = [res[d]['summary'][k] for d in TAPVID_DATASETS
             for k in ('average_jaccard', 'average_pts_within_thresh', 'occlusion_accuracy')]
     rows = LITERATURE_TAPVID + [('Tracktail (Ours)', r'$\checkmark$', ours, False)]

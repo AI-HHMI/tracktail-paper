@@ -18,10 +18,10 @@ Two files are written, with one row per run:
     cotracker_triangulation_stats_detail.csv  everything else (rates within each group, the 1 and 0 camera parts, counts)
 
 The runs are those of cotracker_cached.sh (canonical cameras of the MVTracker tables) and cotracker_cached_po.sh (Point
-Odyssey, 4 and 9 cameras). Needs the CoTracker result tree (COTRACKER_RESULTS) and the processed datasets (DATA_ROOT),
+Odyssey, 4 and 9 cameras). Needs the CoTracker result tree (COTRACKER_OUTPUTS) and the processed datasets (TRACKTAIL_DATA),
 see paths.py:
 
-    COTRACKER_RESULTS=... DATA_ROOT=... python cotracker_triangulation_stats.py [--out data/cotracker_triangulation_stats.csv]
+    COTRACKER_OUTPUTS=... TRACKTAIL_DATA=... python cotracker_triangulation_stats.py [--out data/cotracker_triangulation_stats.csv]
 """
 import argparse
 import glob
@@ -36,8 +36,8 @@ import yaml
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import paths  # noqa: E402
 
-RESULTS = str(paths.COTRACKER_RESULTS)
-DATASET_ROOT = str(paths.DATA_ROOT) if paths.DATA_ROOT else None
+RESULTS = str(paths.COTRACKER_OUTPUTS)
+DATASET_ROOT = str(paths.TRACKTAIL_DATA) if paths.TRACKTAIL_DATA else None
 
 # label, folder of the run, dataset folder, pose file the run was made with
 RUNS = [
@@ -86,7 +86,7 @@ def main():
     ap.add_argument('--results', default=RESULTS)
     ap.add_argument('--out', default=str(paths.PAPER_DATA / 'cotracker_triangulation_stats.csv'))
     args = ap.parse_args()
-    paths.require(paths.DATA_ROOT, 'DATA_ROOT')
+    paths.require(paths.TRACKTAIL_DATA, 'TRACKTAIL_DATA')
 
     rows, details = [], []
     for label, folder, ds, pose_file, cams in RUNS:

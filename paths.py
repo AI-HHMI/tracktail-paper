@@ -1,21 +1,23 @@
 """Input/output locations for the tracktail-paper scripts and notebooks.
 
-Every location can be set with an environment variable. The defaults point inside this repository, so the tables and
+Every location can be set with an environment variable; the names match paper.env of the Tracktail code
+(https://github.com/AI-HHMI/tracktail, branch paper). The defaults point inside this repository, so the tables and
 figures build from the committed result summaries in data/ with no other setup.
 
-    PAPER_DATA       derived data of the figures (survival curves, n-cams AJ, triangulation stats)   default: data/
-    RESULTS_ROOT     root of the result trees, laid out as posetail-next writes them              default: data/results
-                     (data/results is a sparse copy with only the small summary files)
-    TRACKTAIL_RESULTS, COTRACKER_RESULTS, MVTRACKER_RESULTS, MVTRACKER_SENSORDEPTH_RESULTS, ARROW_RESULTS
-                     one result tree each, default: $RESULTS_ROOT/<tree name below>
-    ARROW_PO9_RESULTS  the ARROW Point Odyssey 9-camera run (see TODO below)
-    DATA_ROOT        processed datasets (<DATA_ROOT>/<dataset>/test/<session>/trial/{metadata.yaml,pose3d*.npz,img/})
-                     only needed to recompute survival curves and CoTracker triangulation stats from predictions
-    POSETAIL_NEXT    a posetail-next checkout (paper branch)                                       default: ../posetail-next
-    RENDERS_ROOT     rendered tracking videos of the qualitative figure (render_qualitative_gtvis.sh) no default
-    RAT7M_TRIAL      the processed Rat7M trial of the cover figure (.../rat7m/test/s5-d1/101500)   no default
-    RAT7M_RENDERS    optional: Tracktail render of that trial (posetail-next render_video)         no default
-    FIG_OUT, TABLE_OUT  output folders                                                             default: figures/, tables/
+    PAPER_DATA         derived data of the figures (survival curves, n-cams AJ, ...)          default: data/
+    TRACKTAIL_RESULTS  root of the result trees, as the Tracktail code writes them            default: data/results
+                       (data/results is a sparse copy holding only the small summary files)
+    TRACKTAIL_OUTPUTS, COTRACKER_OUTPUTS, MVTRACKER_OUTPUTS, MVTRACKER_SENSORDEPTH_OUTPUTS, ARROW_OUTPUTS
+                       one result tree each; default $TRACKTAIL_RESULTS/{tracktail-outputs, cotracker-outputs,
+                       mvtracker-outputs, mvtracker-outputs-dexycb-sensordepth, arrow-outputs}
+    ARROW_PO9_OUTPUTS  the ARROW MV Point Odyssey 9-camera run (see TODO below)
+    TRACKTAIL_DATA     processed datasets, <TRACKTAIL_DATA>/<dataset>/<split>/<session>/trial/  no default
+                       (needed to recompute survival curves / triangulation stats, and for the PO figures)
+    TRACKTAIL_CODE     a checkout of the Tracktail code                    default: ../tracktail, else ../posetail-next
+    RENDERS_ROOT       rendered videos of the qualitative figure (scripts/render_qualitative_gtvis.sh)   no default
+    RAT7M_TRIAL        the processed Rat7M trial of the cover figure (.../rat7m/test/s5-d1/101500)    no default
+    RAT7M_RENDERS      optional: rendered Tracktail video of that trial                                no default
+    FIG_OUT, TABLE_OUT output folders                                                 default: figures/, tables/
 """
 import os
 from pathlib import Path
@@ -29,22 +31,26 @@ def _env_path(name, default):
 
 
 PAPER_DATA = _env_path('PAPER_DATA', REPO / 'data')
-RESULTS_ROOT = _env_path('RESULTS_ROOT', REPO / 'data' / 'results')
+TRACKTAIL_RESULTS = _env_path('TRACKTAIL_RESULTS', REPO / 'data' / 'results')
 
-# result tree names (the folder names used on the Janelia file system and in the posetail-next drivers)
-TRACKTAIL_RESULTS = _env_path('TRACKTAIL_RESULTS', RESULTS_ROOT / 'posetail-outputs-vis0.1-occunknown')
-COTRACKER_RESULTS = _env_path('COTRACKER_RESULTS', RESULTS_ROOT / 'cotracker-outputs')
-MVTRACKER_RESULTS = _env_path('MVTRACKER_RESULTS', RESULTS_ROOT / 'mvtracker-outputs')
-MVTRACKER_SENSORDEPTH_RESULTS = _env_path('MVTRACKER_SENSORDEPTH_RESULTS',
-                                          RESULTS_ROOT / 'mvtracker-outputs-dexycb-sensordepth')
-ARROW_RESULTS = _env_path('ARROW_RESULTS', RESULTS_ROOT / 'arrow-outputs')
-# TODO(arrow-w24): the paper's ARROW PO 9-camera numbers are being rerun with 24-frame windows into
-# arrow-outputs-w24/paper-po-9cams. Switch this default to RESULTS_ROOT / 'arrow-outputs-w24' / 'paper-po-9cams'
-# once that run is final (and copied into data/results with `python build_paper_data.py collect`).
-ARROW_PO9_RESULTS = _env_path('ARROW_PO9_RESULTS', ARROW_RESULTS / 'paper-po-9cams')
+# One tree per method. (On the Janelia file system the Tracktail tree is
+# paper-final-v2/posetail-outputs-vis0.1-occunknown; see data/PROVENANCE.md.)
+TRACKTAIL_OUTPUTS = _env_path('TRACKTAIL_OUTPUTS', TRACKTAIL_RESULTS / 'tracktail-outputs')
+COTRACKER_OUTPUTS = _env_path('COTRACKER_OUTPUTS', TRACKTAIL_RESULTS / 'cotracker-outputs')
+MVTRACKER_OUTPUTS = _env_path('MVTRACKER_OUTPUTS', TRACKTAIL_RESULTS / 'mvtracker-outputs')
+MVTRACKER_SENSORDEPTH_OUTPUTS = _env_path('MVTRACKER_SENSORDEPTH_OUTPUTS',
+                                          TRACKTAIL_RESULTS / 'mvtracker-outputs-dexycb-sensordepth')
+ARROW_OUTPUTS = _env_path('ARROW_OUTPUTS', TRACKTAIL_RESULTS / 'arrow-outputs')
+# TODO(arrow-w24): the ARROW PO 9-camera run is being redone with 24-frame windows into
+# arrow-outputs-w24/paper-po-9cams. When it is final, change this default to
+# TRACKTAIL_RESULTS / 'arrow-outputs-w24' / 'paper-po-9cams' and rerun `build_paper_data.py collect survival`.
+ARROW_PO9_OUTPUTS = _env_path('ARROW_PO9_OUTPUTS', ARROW_OUTPUTS / 'paper-po-9cams')
 
-DATA_ROOT = _env_path('DATA_ROOT', None)
-POSETAIL_NEXT = _env_path('POSETAIL_NEXT', REPO.parent / 'posetail-next')
+TRACKTAIL_DATA = _env_path('TRACKTAIL_DATA', None)
+_code_default = REPO.parent / 'tracktail'
+if not _code_default.exists() and (REPO.parent / 'posetail-next').exists():
+    _code_default = REPO.parent / 'posetail-next'   # older local folder name of the same repository
+TRACKTAIL_CODE = _env_path('TRACKTAIL_CODE', _code_default)
 RENDERS_ROOT = _env_path('RENDERS_ROOT', None)
 RAT7M_TRIAL = _env_path('RAT7M_TRIAL', None)
 RAT7M_RENDERS = _env_path('RAT7M_RENDERS', None)

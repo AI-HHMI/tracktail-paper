@@ -68,7 +68,7 @@ def n_cams():
 
 def survival_comparison(thresh=1.2):
     data = pd.read_csv(paths.PAPER_DATA / 'survival_curves.csv')
-    label_dict = {'posetail-4cams': 'Tracktail', 'cotracker-4cams': 'CoTracker Baseline',
+    label_dict = {'tracktail-4cams': 'Tracktail', 'cotracker-4cams': 'CoTracker Baseline',
                   'mvtracker-4cams-duster': 'MVTracker', 'arrow-4cams': 'ARROW'}
     color_dict = dict(zip(label_dict, [COLORS['tracktail'], COLORS['cotracker'], COLORS['mvtracker'],
                                        COLORS['arrow']]))
@@ -109,7 +109,7 @@ def survival_tracktail():
     fs = 20
     fig, axs = plt.subplots(1, 2, figsize=(12, 6), sharey=True)
     palette = sns.color_palette('rainbow', n_colors=6)
-    tracktail_df = data[data['model'] == 'posetail-4cams']
+    tracktail_df = data[data['model'] == 'tracktail-4cams']
     for i, (ax, dataset) in enumerate(zip(axs, ['human', 'animal'])):
         sub_df = tracktail_df[tracktail_df['dataset'] == dataset]
         sns.lineplot(data=sub_df, x='frame', y='survival_mean', hue='threshold', linewidth=2, palette=palette, ax=ax)
