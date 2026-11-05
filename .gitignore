@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.pixi/
+# local outputs of notebooks that need raw data (renders, datasets)
+figures/architecture/
+figures/rat7m/
+training_samples/
