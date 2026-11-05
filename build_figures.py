@@ -137,6 +137,9 @@ def survival_tracktail():
 FIGURES = {'n_cams': n_cams, 'survival_comparison': survival_comparison, 'survival_tracktail': survival_tracktail}
 
 if __name__ == '__main__':
+    if any(a in ('-h', '--help') for a in sys.argv[1:]):
+        print(__doc__)
+        sys.exit(0)
     names = sys.argv[1:] or list(FIGURES)
     for name in names:
         if name not in FIGURES:
