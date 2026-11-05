@@ -1,0 +1,22 @@
+{
+  "input_npz": "/home/ruppk2@hhmi.org/posetail/paper_figures/rat7m_movement/s5-d1__101500__670/output.npz",
+  "trial_path": null,
+  "metadata_path": "/groups/karashchuk/karashchuklab/animal-datasets-processed/posetail-finetuning-v6/rat7m/test/s5-d1/101500/metadata.yaml",
+  "video_paths": [
+    "/groups/karashchuk/karashchuklab/animal-datasets-processed/posetail-finetuning-v6/rat7m/test/s5-d1/101500/vid/camera1.mp4",
+    "/groups/karashchuk/karashchuklab/animal-datasets-processed/posetail-finetuning-v6/rat7m/test/s5-d1/101500/vid/camera2.mp4",
+    "/groups/karashchuk/karashchuklab/animal-datasets-processed/posetail-finetuning-v6/rat7m/test/s5-d1/101500/vid/camera3.mp4",
+    "/groups/karashchuk/karashchuklab/animal-datasets-processed/posetail-finetuning-v6/rat7m/test/s5-d1/101500/vid/camera4.mp4",
+    "/groups/karashchuk/karashchuklab/animal-datasets-processed/posetail-finetuning-v6/rat7m/test/s5-d1/101500/vid/camera5.mp4",
+    "/groups/karashchuk/karashchuklab/animal-datasets-processed/posetail-finetuning-v6/rat7m/test/s5-d1/101500/vid/camera6.mp4"
+  ],
+  "conf_threshold": 0.5,
+  "marker_size": 4,
+  "fps": 30.0,
+  "codec": "mp4v",
+  "crop": false,
+  "crop_padding": 50,
+  "trails": true,
+  "trail_length": 30,
+  "trail_thickness": 2
+}

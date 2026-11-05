@@ -1,0 +1,208 @@
+{
+ "source": "/groups/karashchuk/home/karashchukl/results/paper-final-v2/posetail-outputs-vis0.1-occunknown",
+ "query_occlusion": "unknown",
+ "vis_thresh": 0.1,
+ "table1_tracktail": {
+  "cmupanoptic_3dgs": {
+   "n_trials": 6,
+   "AJ": 86.5,
+   "delta_avg": 95.5,
+   "OA": 92.7,
+   "MTE": 2.7
+  },
+  "dex_ycb": {
+   "n_trials": 10,
+   "AJ": 84.9,
+   "delta_avg": 93.8,
+   "OA": 91.5,
+   "MTE": 0.6
+  },
+  "kubric-multiview": {
+   "n_trials": 30,
+   "AJ": 77.4,
+   "delta_avg": 87.0,
+   "OA": 92.3,
+   "MTE": 1.1
+  }
+ },
+ "table2_po": {
+  "4cams": {
+   "human": {
+    "n_trials": 8,
+    "AJ": 54.2,
+    "delta_avg": 61.1,
+    "OA": 93.5,
+    "MTE": 1.6
+   },
+   "animal": {
+    "n_trials": 10,
+    "AJ": 60.9,
+    "delta_avg": 69.0,
+    "OA": 95.1,
+    "MTE": 0.9
+   }
+  },
+  "9cams": {
+   "human": {
+    "n_trials": 8,
+    "AJ": 60.9,
+    "delta_avg": 66.5,
+    "OA": 97.0,
+    "MTE": 1.1
+   },
+   "animal": {
+    "n_trials": 10,
+    "AJ": 69.7,
+    "delta_avg": 75.6,
+    "OA": 98.4,
+    "MTE": 0.7
+   }
+  }
+ },
+ "ablation_encoder": {
+  "base_80M": {
+   "n_trials": 30,
+   "AJ": 56.5,
+   "delta_avg": 66.6,
+   "OA": 88.7,
+   "MTE": 3.4
+  },
+  "large_300M": {
+   "n_trials": 30,
+   "AJ": 60.2,
+   "delta_avg": 70.4,
+   "OA": 89.4,
+   "MTE": 2.8
+  },
+  "giant_1B": {
+   "n_trials": 30,
+   "AJ": 61.7,
+   "delta_avg": 71.8,
+   "OA": 89.5,
+   "MTE": 2.6
+  },
+  "gigantic_2B": {
+   "n_trials": 30,
+   "AJ": 62.1,
+   "delta_avg": 72.4,
+   "OA": 89.5,
+   "MTE": 2.6
+  }
+ },
+ "ablation_cam_self_attn": {
+  "off": {
+   "n_trials": 30,
+   "AJ": 49.4,
+   "delta_avg": 59.4,
+   "OA": 86.7,
+   "MTE": 5.1
+  },
+  "on": {
+   "n_trials": 30,
+   "AJ": 60.2,
+   "delta_avg": 70.4,
+   "OA": 89.4,
+   "MTE": 2.8
+  }
+ },
+ "ablation_latent_dim": {
+  "256": {
+   "n_trials": 30,
+   "AJ": 56.2,
+   "delta_avg": 66.4,
+   "OA": 88.6,
+   "MTE": 3.2
+  },
+  "512": {
+   "n_trials": 30,
+   "AJ": 60.2,
+   "delta_avg": 70.4,
+   "OA": 89.4,
+   "MTE": 2.8
+  },
+  "1024": {
+   "n_trials": 30,
+   "AJ": 59.9,
+   "delta_avg": 70.2,
+   "OA": 89.4,
+   "MTE": 2.9
+  }
+ },
+ "ncams_tracktail_AJ": {
+  "1": 67.4,
+  "2": 79.0,
+  "3": 83.2,
+  "4": 83.2,
+  "5": 84.6,
+  "6": 86.0,
+  "7": 86.9,
+  "8": 87.3
+ },
+ "tapvid3d_tracktail_median": {
+  "drivetrack": {
+   "n_trials": 50,
+   "AJ": 0.058,
+   "APD3D": 0.1,
+   "OA": 0.797
+  },
+  "adt": {
+   "n_trials": 49,
+   "AJ": 0.068,
+   "APD3D": 0.125,
+   "OA": 0.74
+  },
+  "pstudio": {
+   "n_trials": 50,
+   "AJ": 0.228,
+   "APD3D": 0.353,
+   "OA": 0.797
+  }
+ },
+ "latex_rows_no_bold": {
+  "table1": "Tracktail (Ours) & MV-Kub+MV-PO & \\xmark& 86.5 & 95.5 & 92.7 & 2.7 & 84.9 & 93.8 & 91.5 & 0.6 & 77.4 & 87.0 & 92.3 & 1.1 \\\\",
+  "table2": "  & 54.2 & 61.1 & 93.5 & 1.6 & 60.9 & 69.0 & 95.1 & 0.9 & 60.9 & 66.5 & 97.0 & 1.1 & 69.7 & 75.6 & 98.4 & 0.7 \\\\",
+  "ablation_encoder": [
+   "Base (80M) & 56.5 & 66.6 & 88.7 & 3.4 \\\\",
+   "Large (300M) & 60.2 & 70.4 & 89.4 & 2.8 \\\\",
+   "Giant (1B) & 61.7 & 71.8 & 89.5 & 2.6 \\\\",
+   "Gigantic (2B) & 62.1 & 72.4 & 89.5 & 2.6 \\\\"
+  ],
+  "ablation_cam_self_attn": [
+   "\\xmark & 49.4 & 59.4 & 86.7 & 5.1 \\\\",
+   "\\cmark & 60.2 & 70.4 & 89.4 & 2.8 \\\\"
+  ],
+  "ablation_latent_dim": [
+   "256 & 56.2 & 66.4 & 88.6 & 3.2 \\\\",
+   "512 & 60.2 & 70.4 & 89.4 & 2.8 \\\\",
+   "1024 & 59.9 & 70.2 & 89.4 & 2.9 \\\\"
+  ],
+  "tapvid3d": "  Tracktail (Ours)\n     & $\\checkmark$\n     & 0.058 & 0.100 & 0.797\n     & 0.068 & 0.125 & 0.740\n     & 0.228 & 0.353 & 0.797 \\\\"
+ },
+ "survival_thr1.2_tracktail": {
+  "4cams": {
+   "human": {
+    "frame25": 0.883,
+    "frame498": 0.421
+   },
+   "animal": {
+    "frame25": 0.893,
+    "frame498": 0.382
+   }
+  },
+  "9cams": {
+   "human": {
+    "frame25": 0.945,
+    "frame498": 0.502
+   },
+   "animal": {
+    "frame25": 0.975,
+    "frame498": 0.542
+   }
+  }
+ },
+ "figures": {
+  "n_cams_figure.pdf": "/groups/karashchuk/home/karashchukl/projects/posetail/posetail-next/scratch/figs_occunk/n_cams_figure.pdf",
+  "po_survival_comparison_1.2.pdf": "/groups/karashchuk/home/karashchukl/projects/posetail/posetail-next/scratch/figs_occunk/po_survival_comparison_1.2.pdf",
+  "po_survival_tracktail.pdf": "/groups/karashchuk/home/karashchukl/projects/posetail/posetail-next/scratch/figs_occunk/po_survival_tracktail.pdf"
+ }
+}
